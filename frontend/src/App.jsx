@@ -1,29 +1,30 @@
 import React, { Suspense, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 
-import { CSpinner, useColorModes } from '@coreui/react'
-import './scss/style.scss'
+// import { CSpinner, useColorModes } from '@coreui/react'
+// import './scss/style.scss'
+import 'react-datepicker/dist/react-datepicker.css';
 
-import PrescriptionTable from './components/PrescriptionTable';
-import Diagnosis from 'src/views/theme/HealthcareThemes/Diagnosis'
-import PrescriptionDetailForm from './components/PrescriptionDetailForm';
-import Prescription from 'src/views/theme/HealthcareThemes/Prescription';
-import Payers from 'src/views/healthauthorities/Payers';
-const PayerHACredential = React.lazy(() => import('./views/healthauthorities/PayerHACredential'));
+import PrescriptionTable from './components/PrescriptionTable.jsx';
+import Diagnosis from './components/HealthcareThemes/Diagnosis.jsx'
+import PrescriptionDetailForm from './components/PrescriptionDetailForm.jsx';
+import Prescription from './components/HealthcareThemes/Prescription.jsx';
+import Payers from './components/healthauthorities/Payers.jsx';
+const PayerHACredential = React.lazy(() => import('./components/healthauthorities/PayerHACredential'));
 
-import Pharmacies from 'src/views/healthauthorities/Pharmacies';
-import './scss/examples.scss'
+import Pharmacies from './components/healthauthorities/Pharmacies.jsx';
+// import './scss/examples.scss'
 
 // Containers
-const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+// const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
-const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Register = React.lazy(() => import('./views/pages/register/Register'))
+const Login = React.lazy(() => import('./components/pages/login/Login.js'))
+const Register = React.lazy(() => import('./components/pages/register/Register.js'))
 
-const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
-const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
+const Page404 = React.lazy(() => import('./components/pages/page404/Page404'))
+const Page500 = React.lazy(() => import('./components/pages/page500/Page500'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
