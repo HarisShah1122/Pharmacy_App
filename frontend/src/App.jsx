@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async'; // Add this import
-import { CSpinner } from '@coreui/react';
+import { HelmetProvider } from 'react-helmet-async';
+import { CSpinner, CNavGroup, CNavItem, CNavTitle } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import {
   cilBell,
@@ -17,7 +17,6 @@ import {
   cilStar,
   cilHospital,
 } from '@coreui/icons';
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react';
 import { Col, Container, Row } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import FallbackLoading from '@/components/FallbackLoading';
@@ -153,65 +152,16 @@ const NotFound2 = React.lazy(() => import('@/app/(other)/(error-pages)/error-404
 const NotFoundAdmin = React.lazy(() => import('@/app/(admin)/not-found'));
 
 // Auth Routes
-const AuthSignIn = React.lazy(() => import('./app/(other)/auth/sign-in/page.jsx'));
-const AuthSignIn2 = React.lazy(() => import('./app/(other)/auth/sign-in/LoginForm.jsx'));
-const AuthSignUp = React.lazy(() => import('./app/(other)/auth/sign-up/components/SignUpForm.jsx'));
-const AuthSignUp2 = React.lazy(() => import('./app/(other)/auth/sign-up-2/page.jsx'));
-const ResetPassword = React.lazy(() => import('./app/(other)/auth/reset-pass/page.jsx'));
-const ResetPassword2 = React.lazy(() => import('./app/(other)/auth/reset-pass-2/page.jsx'));
-const LockScreen = React.lazy(() => import('./app/(other)/auth/lock-screen/page.jsx'));
-const LockScreen2 = React.lazy(() => import('./app/(other)/auth/lock-screen-2/page.jsx'));
+const AuthSignIn = React.lazy(() => import('@/app/(other)/auth/sign-in/page'));
+const AuthSignIn2 = React.lazy(() => import('@/app/(other)/auth/sign-in-2/page'));
+const AuthSignUp = React.lazy(() => import('@/app/(other)/auth/sign-up/page'));
+const AuthSignUp2 = React.lazy(() => import('@/app/(other)/auth/sign-up-2/page'));
+const ResetPassword = React.lazy(() => import('@/app/(other)/auth/reset-pass/page'));
+const ResetPassword2 = React.lazy(() => import('@/app/(other)/auth/reset-pass-2/page'));
+const LockScreen = React.lazy(() => import('@/app/(other)/auth/lock-screen/page'));
+const LockScreen2 = React.lazy(() => import('@/app/(other)/auth/lock-screen-2/page'));
 
-// Layout Components
-const AdminLayout = ({ children }) => {
-  return (
-    <div className="wrapper">
-      <Suspense fallback={<FallbackLoading />}>
-        <TopNavigationBar />
-      </Suspense>
-      <Suspense fallback={<FallbackLoading />}>
-        <VerticalNavigationBar />
-      </Suspense>
-      <div className="page-content">
-        <div className="container-xxl">
-          <Suspense fallback={<Preloader />}>{children}</Suspense>
-        </div>
-        <Footer />
-      </div>
-    </div>
-  );
-};
-
-const AuthLayout = ({ children }) => {
-  return (
-    <div className="authentication-bg">
-      <div className="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
-        <Container>
-          <Row className="justify-content-center">
-            <Col xl={12}>
-              <Suspense fallback={<Preloader />}>{children}</Suspense>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </div>
-  );
-};
-
-// Route Definitions
-const initialRoutes = [
-  {
-    path: '/',
-    name: 'root',
-    element: <Navigate to="/dashboard/analytics" />,
-  },
-  {
-    path: '*',
-    name: 'not-found',
-    element: <Page404 />,
-  },
-];
-
+// Health Routes (retained from previous App.jsx)
 const healthRoutes = [
   {
     path: '/prescription/authorities',
@@ -262,6 +212,20 @@ const healthRoutes = [
     path: '/clinicianlist/authorities',
     name: 'Clinician List',
     element: <div>Clinician List Placeholder</div>,
+  },
+];
+
+// Route Definitions (from your provided code)
+const initialRoutes = [
+  {
+    path: '/',
+    name: 'root',
+    element: <Navigate to="/dashboard/analytics" />,
+  },
+  {
+    path: '*',
+    name: 'not-found',
+    element: <NotFound />,
   },
 ];
 
@@ -744,43 +708,43 @@ const iconRoutes = [
 
 const authRoutes = [
   {
-    path: '/sign-in',
+    path: '/auth/sign-in',
     name: 'Sign In',
     element: <AuthSignIn />,
   },
   {
     name: 'Sign In 2',
-    path: '/sign-in-2',
+    path: '/auth/sign-in-2',
     element: <AuthSignIn2 />,
   },
   {
     name: 'Sign Up',
-    path: '/sign-up',
+    path: '/auth/sign-up',
     element: <AuthSignUp />,
   },
   {
     name: 'Sign Up 2',
-    path: '/sign-up-2',
+    path: '/auth/sign-up-2',
     element: <AuthSignUp2 />,
   },
   {
     name: 'Reset Password',
-    path: '/reset-pass',
+    path: '/auth/reset-pass',
     element: <ResetPassword />,
   },
   {
     name: 'Reset Password 2',
-    path: '/reset-pass-2',
+    path: '/auth/reset-pass-2',
     element: <ResetPassword2 />,
   },
   {
     name: 'Lock Screen',
-    path: '/lock-screen',
+    path: '/auth/lock-screen',
     element: <LockScreen />,
   },
   {
     name: 'Lock Screen 2',
-    path: '/lock-screen-2',
+    path: '/auth/lock-screen-2',
     element: <LockScreen2 />,
   },
   {
@@ -805,6 +769,19 @@ const authRoutes = [
   },
 ];
 
+const errorRoutes = [
+  {
+    path: '/404',
+    name: '404 Error',
+    element: <Page404 />,
+  },
+  {
+    path: '/500',
+    name: '500 Error',
+    element: <Page500 />,
+  },
+];
+
 const appRoutes = [
   ...initialRoutes,
   ...healthRoutes,
@@ -818,16 +795,7 @@ const appRoutes = [
   ...tableRoutes,
   ...iconRoutes,
   ...authRoutes,
-  {
-    path: '/404',
-    name: '404 Error',
-    element: <Page404 />,
-  },
-  {
-    path: '/500',
-    name: '500 Error',
-    element: <Page500 />,
-  },
+  ...errorRoutes,
 ];
 
 // Navigation Configuration
@@ -1479,22 +1447,22 @@ export const navConfig = [
       {
         component: CNavItem,
         name: 'Sign In',
-        to: '/sign-in',
+        to: '/auth/sign-in',
       },
       {
         component: CNavItem,
         name: 'Sign Up',
-        to: '/sign-up',
+        to: '/auth/sign-up',
       },
       {
         component: CNavItem,
         name: 'Reset Password',
-        to: '/reset-pass',
+        to: '/auth/reset-pass',
       },
       {
         component: CNavItem,
         name: 'Lock Screen',
-        to: '/lock-screen',
+        to: '/auth/lock-screen',
       },
     ],
   },
@@ -1528,13 +1496,49 @@ export const navConfig = [
   },
 ];
 
+// Layout Components
+const AdminLayout = ({ children }) => {
+  return (
+    <div className="wrapper d-flex flex-column min-vh-100 bg-light">
+      <Suspense fallback={<FallbackLoading />}>
+        <TopNavigationBar />
+      </Suspense>
+      <div className="body flex-grow-1 d-flex">
+        <Suspense fallback={<FallbackLoading />}>
+          <VerticalNavigationBar />
+        </Suspense>
+        <div className="content flex-grow-1 p-3">
+          <Container fluid className="container-xxl">
+            <Suspense fallback={<Preloader />}>{children}</Suspense>
+          </Container>
+          <Footer />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AuthLayout = ({ children }) => {
+  return (
+    <div className="authentication-bg min-vh-100 d-flex align-items-center">
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs={12} md={8} lg={6}>
+            <Suspense fallback={<Preloader />}>{children}</Suspense>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
 const App = () => {
   return (
-    <HelmetProvider> {/* Add HelmetProvider here */}
+    <HelmetProvider>
       <BrowserRouter>
         <Suspense
           fallback={
-            <div className="pt-3 text-center">
+            <div className="d-flex justify-content-center align-items-center min-vh-100">
               <CSpinner color="primary" variant="grow" />
             </div>
           }
@@ -1545,10 +1549,7 @@ const App = () => {
                 key={index}
                 path={route.path}
                 element={
-                  route.path.startsWith('/sign-in') ||
-                  route.path.startsWith('/sign-up') ||
-                  route.path.startsWith('/reset-pass') ||
-                  route.path.startsWith('/lock-screen') ||
+                  route.path.startsWith('/auth/') ||
                   route.path === '/error-404' ||
                   route.path === '/error-404-2' ||
                   route.path === '/coming-soon' ||
